@@ -20,14 +20,14 @@ def main():
     ]
     
     
-    critical = 0
-    for i in range(len(results)):   #for all i
-        if results[i] > 5:
-            critical = critical + 1   #increase by1
-    if critical == 1:
-        print('criticality: 1 result above 5')
+    # Считаем количество результатов, превышающих критический порог
+    critical_count = sum(1 for res in results if res > 5)
+    
+    # Выводим вердикт
+    if critical_count == 1:
+        print(f"critical: {critical_count} result above 5")
     else:
-        print("criticality:", critical, "results above 5")
+        print(f"criticality: {critical_count} results above 5")
 
         
 if __name__ == '__main__':
