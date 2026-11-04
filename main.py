@@ -6,28 +6,20 @@ def read_matrix_from_csv(file_path: str) -> list[list[float]]:
 
 
 def main():
-    #read sample files
+    # 1. Читаем данные одной понятной командой
     data1 = read_matrix_from_csv('data1.csv')
-    with open('data2.csv') as file2:  
-        lines2 = file2.readlines()
-        data2 = []
-        for line in lines2:
-            row = []
-            for n in line.split(','):           
-                row.append(float(n.strip()))
-            data2.append(row)
-    with open('weights.csv') as filew: 
-        linew = filew.read()
-        w = []
-        for n in linew.split(','):     
-            w.append(float(n.strip())) 
-    results = []
-    for i in range(len(data1)):                 
-        s = 0
-        for j in range(len(w)):
-            d = data1[i][j] - data2[i][j]
-            s += w[j] * abs(d)
-        results.append(s)
+    data2 = read_matrix_from_csv('data2.csv')
+    
+    # Веса — это первая строка из файла weights.csv
+    weights = read_matrix_from_csv('weights.csv')[0]
+    
+       # Вычисляем взвешенную сумму разностей для каждой строки
+    results = [
+        sum(w * abs(d1 - d2) for d1, d2, w in zip(row1, row2, weights))
+        for row1, row2 in zip(data1, data2)
+    ]
+    
+    
     critical = 0
     for i in range(len(results)):   #for all i
         if results[i] > 5:
